@@ -1,9 +1,7 @@
 const crel = require('crel')
-const doc = require('doc-js')
 const swipeout = require('swipeout')
 const translate = require('css-translate')
 const venfix = require('venfix')
-// const Swipe = require('./swipe')
 const defaultcss = require('defaultcss')
 const fs = require('fs')
 const path = require('path')
@@ -15,7 +13,6 @@ defaultcss('card', style)
 module.exports = function (fastn, component, type, settings, children) {
   component.extend('_generic', settings, children)
   component.setProperty('valid')
-
 
   component.render = function () {
     let card = component.element = crel('div', {class: 'card'}, component.item())
@@ -30,6 +27,7 @@ module.exports = function (fastn, component, type, settings, children) {
 
       card.style[venfix('transform')] = `translateX(${event.x}px)`
       card.style[venfix('opacity')] = opacity
+      // card.style[venfix('transform')] = translate('3d', event.x, 0, 0)
 
       if (type === 'drag') {
         event.preventDefault()
@@ -57,17 +55,13 @@ module.exports = function (fastn, component, type, settings, children) {
       }
 
       if (type === 'rebound') {
-
         if (Math.abs(event.x) > card.clientWidth * triggerModifier) {
-
           destroy()
           setTimeout(function () {
             card.remove()
           }, 300)
         }
       }
-
-      // card.style[venfix('transform')] = translate('3d', event.x, 0, 0)
     })
 
     component.element = card
